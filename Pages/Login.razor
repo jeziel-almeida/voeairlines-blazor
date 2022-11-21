@@ -1,0 +1,61 @@
+@page "/login"
+
+<div class="container border p-4 my-4 rounded">
+    <div class="row">
+        <!--* Login -->
+        <div class="col-md mb-5">
+            <div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Me mantenha conectado</label>
+                </div>
+                <button type="button" class="btn btn-primary" @onclick="MostrarFuncMes">Entrar</button>
+            </div>
+        </div>
+
+        <!--* Card -->
+        <div class="col-md px-5">
+            <div class="card" style="width: 15rem;">
+                <img src="../images/funcionarios.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">@titulo</p>
+                    <p>@msg</p>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string? msg;
+    private string? titulo;
+    public string? NomeCompleto { get; set; } = "Manoel Ferreira";
+    public string? Cargo { get; set; } = "Piloto";
+    public DateTime DataNasc { get; set; } = new DateTime(2020, 11, 18, 22, 59, 59);
+
+
+
+    public void MostrarFuncMes() 
+    {
+        var diaAtual = DateTime.Now.Day;
+        var mesAtual = DateTime.Now.Month;
+        titulo = "Aniversariantes do Mês:";
+        if(DataNasc.Day.Equals(diaAtual) && DataNasc.Month.Equals(mesAtual))
+        {    
+            msg = $"Parabéns {Cargo} {NomeCompleto}. Hoje: {DataNasc.Day}/{DataNasc.Month} é um dia especial, pois foi o dia em que você veio iluminar essa terra com o seu potêncial!";
+        }
+        else {
+            msg = "Não temos aniversariantes hoje.";
+        }
+    }
+}
