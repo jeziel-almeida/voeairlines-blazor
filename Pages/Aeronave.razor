@@ -1,0 +1,44 @@
+@page "/aeronave"
+
+<div class="container">
+    <h6>Cadastro de Aeronaves</h6>
+    <div class="row">
+        
+        @** Formulário *@
+        <div class="col">
+            <input class="form-control mb-2" type="text" placeholder="" disabled>
+            <input class="form-control mb-2" type="text" placeholder="Digite o fabricante">
+            <input class="form-control mb-2" type="text" placeholder="Digite o modelo">
+            <input class="form-control mb-2" type="text" placeholder="Digite o código">
+            <button type="button" class="form-control btn btn-primary">Adicionar</button>
+        </div>
+        
+        @** Tabela *@
+        <div class="col">
+            <table class="table table-light border">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Fabricante</th>
+                        <th>Modelo</th>
+                        <th>Código</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Airbus</td>
+                        <td>A330</td>
+                        <td>PTX-123</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Boeing</td>
+                        <td>B737</td>
+                        <td>ABC-321</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

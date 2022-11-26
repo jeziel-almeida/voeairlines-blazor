@@ -1,6 +1,7 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">voeairlines-blazor</a>
+        @* <a class="navbar-brand" href="">voeairlines-blazor</a> *@
+        <img src="../images/voe-airlines-logo.png" class="img-fluid" alt="VoeAirlines">
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,6 +13,11 @@
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="aeronave">
+                <span class="oi oi-home" aria-hidden="true"></span> Aeronave
             </NavLink>
         </div>
         <div class="nav-item px-3">
