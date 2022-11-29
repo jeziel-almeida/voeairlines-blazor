@@ -8,6 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped
+(
+    s =>
+    {
+        return new HttpClient { BaseAddress = new Uri(@"http://www.edukacode.com.br") };
+    }
+);
 
 var app = builder.Build();
 
