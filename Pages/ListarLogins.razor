@@ -1,0 +1,59 @@
+@page "/listarlogins"
+@inject HttpClient client
+@using Newtonsoft.Json
+@using voeairlines_blazor.Data
+
+<PageTitle>Listar Usuários</PageTitle>
+
+<div class="container-fluid">
+    <div class="row justify-content-center" style="margin-bottom: 50px">
+        <h3 class="text-center">Listar Usuários</h3>
+    </div>
+    <div class="row" style="margin:25px;">
+        <strong>Get Operation</strong>
+        <hr>
+        @if (Users != null)
+        {
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Data Criação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Users)
+                    {
+                        <tr class="justify-content-center">
+                            <td>@user.Usuario</td>
+                            <td>@user.DataCriacao</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <div class="row" style="margin:10px;margin-bottom:50px;">
+        <div class="col">
+            <button class="btn btn-info" @onclick="GetUser">Listar</button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<LoginApi>? Users;
+    private async void GetUser()
+    {
+        var apiName = "http://www.edukacode.com.br/api/login/";
+        var httpResponse = await client.GetAsync(apiName);
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            Users = new List<LoginApi>();
+            var apiConteudo = await httpResponse.Content.ReadAsStringAsync();
+            Users = JsonConvert.DeserializeObject<List<LoginApi>>(apiConteudo);
+            StateHasChanged();
+        }
+    }
+}

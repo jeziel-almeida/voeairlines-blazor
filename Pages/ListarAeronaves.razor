@@ -1,0 +1,61 @@
+@page "/listaraeronaves"
+@inject HttpClient client
+@using Newtonsoft.Json
+@using voeairlines_blazor.Data
+
+<PageTitle>Listar Aeronaves</PageTitle>
+
+<div class="container-fluid">
+    <div class="row justify-content-center" style="margin-bottom: 50px">
+        <h3 class="text-center">Listar Aeronaves</h3>
+    </div>
+    <div class="row" style="margin:25px;">
+        <strong>Get Operation</strong>
+        <hr>
+        @if (Aeronaves != null)
+        {
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Modelo</th>
+                        <th>Código</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var aeronave in Aeronaves)
+                    {
+                        <tr class="justify-content-center">
+                            <td>@aeronave.Id</td>
+                            <td>@aeronave.Modelo</td>
+                            <td>@aeronave.Codigo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <div class="row" style="margin:10px;margin-bottom:50px;">
+        <div class="col">
+            <button class="btn btn-info" @onclick="GetUser">Listar</button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<AeronaveApi>? Aeronaves;
+    private async void GetUser()
+    {
+        var apiName = "http://www.edukacode.com.br/api/aeronaves/";
+        var httpResponse = await client.GetAsync(apiName);
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            Aeronaves = new List<AeronaveApi>();
+            var apiConteudo = await httpResponse.Content.ReadAsStringAsync();
+            Aeronaves = JsonConvert.DeserializeObject<List<AeronaveApi>>(apiConteudo);
+            StateHasChanged();
+        }
+    }
+}
