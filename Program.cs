@@ -11,7 +11,7 @@ builder.Services.AddScoped
 (
     s =>
     {
-        return new HttpClient { BaseAddress = new Uri(@"http://www.edukacode.com.br") };
+        return new HttpClient { BaseAddress = new Uri(@"http://jezielalmeida-001-site1.btempurl.com") };
     }
 );
 

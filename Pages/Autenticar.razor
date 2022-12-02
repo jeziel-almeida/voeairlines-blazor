@@ -1,0 +1,33 @@
+@page "/autenticar"
+@inject HttpClient client;
+@using Newtonsoft.Json;
+
+<PageTitle>Auntenticar</PageTitle>
+
+<div class="col-3">
+
+    Usuário:<input type="text" class="form-control" id="inputPassword2" @bind="InputUser" placeholder="">
+</div>
+<div class="col-3">
+
+    Senha:<input type="password" class="form-control" id="inputPassword2" placeholder="">
+</div>
+<div class="col-3" style="margin-top:10px;">
+       <button type="submit" @onclick="Acessar" class="btn btn-primary mb-6">Confirmar acesso</button>
+</div>
+
+@if(acesso){
+    <p style="margin-top:25px;">Seja bem vindo: @InputUser</p>
+    <p>Você tem a funcionalidade habilitada de: <ListarLogins/></p>
+   
+}
+
+@code{
+    private bool acesso=false; 
+    private string? InputUser;
+    List<Login>? Usuarios=new List<Login>();         
+    private void Acessar(){  
+       acesso = true;
+    }
+   
+}

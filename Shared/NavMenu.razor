@@ -1,7 +1,7 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        @* <a class="navbar-brand" href="">voeairlines-blazor</a> *@
-        <img src="../images/voe-airlines-logo.png" class="img-fluid" alt="VoeAirlines">
+        @* <img src="../images/voe-airlines-logo.png" class="img-fluid" alt="VoeAirlines"> *@
+        <a href="" style="color:white" class="navbar-brand">SIA - Gestão de Aeronaves</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,20 +16,17 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="autenticar">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Autenticar
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
             <NavLink class="nav-link" href="aeronave">
-                <span class="oi oi-home" aria-hidden="true"></span> Aeronave
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Adicionar Aeronave
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="listarlogins">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Listar Usuários
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="listaraeronaves">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Listar Aeronaves
-            </NavLink>
-        </div>
+        
+        
     </nav>
 </div>
 
