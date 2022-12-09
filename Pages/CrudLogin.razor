@@ -4,10 +4,10 @@
 @using System.Text
 @using voeairlines_blazor.Data
 
-<div class="container vh-100" id="cadastrar-form">
+<div class="container mb-5" id="cadastrar-form">
 
     <div class="row">
-        <div class="container bg-dark text-white mt-5 mx-2 p-4 border col">
+        <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
             <h4>Cadastrar usuário</h4>   
             <div>
                 <div class="mb-3">
@@ -27,7 +27,7 @@
         </div>
 
 
-        <div class="container bg-dark text-white mt-5 mx-2 p-4 border col">
+        <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
             <h4>Lista de Usuários</h4>
     
             <table class="table table-light table-sm table-bordered table-hover table-striped">
@@ -46,7 +46,7 @@
                                 <td>@usuario.Usuario</td>
                                 <td>@usuario.DataCriacao</td>
                                 <td><button type="button" class="btn btn-danger" @onclick="() => DeleteUser(usuario.Id)">Deletar</button></td>
-                                <td><button type="button" class="btn btn-warning">Atualizar</button></td>
+                                <td><button type="button" class="btn btn-warning" @onclick="() => PreencherAtualizar(usuario.Id, usuario.Usuario, usuario.DataCriacao)">Atualizar</button></td>
                             </tr>
                         }
                     }
@@ -57,10 +57,36 @@
 
 </div>
 
+<div class="container mt-5">
+    <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
+        <h4>Atualizar usuário</h4>   
+        <div>
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Usuário</label>
+                <input type="text" class="form-control" id="atualizar-usuario" name="atualizar-usuario" @bind="AtualizarUsuario">
+
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="atualizar-senha" name="atualizar-senha" @bind="AtualizarSenha">
+            </div>
+            
+            <button type="button" class="btn btn-primary" @onclick="UpdateUser">Atualizar</button>
+        </div>   
+    </div>
+</div>
 
 @code {
+    //* Post User
     private string? InputUsuario;
     private string? InputSenha;
+
+    //* Update User
+    private string? AtualizarUsuario;
+    private string? AtualizarSenha;
+    private int? AtualizarId;
+    private DateTime AtualizarData;
+
 
     List<LoginCrud>? Usuarios;
     
@@ -110,6 +136,35 @@
         {
             GetUser();
         }
+    }
+
+    private void PreencherAtualizar(int id, string usuario, DateTime dataCriacao) 
+    {
+        AtualizarId = id;
+        AtualizarUsuario = usuario;
+        AtualizarData = dataCriacao;
+    }
+    private async void UpdateUser()
+    {
+        var apiName = $"http://jezielalmeida-001-site1.btempurl.com/api/login/{AtualizarId}";
+
+        var login = new LoginPut
+        {
+            Usuario = AtualizarUsuario,
+            Senha = AtualizarSenha,
+            DataCriacao = AtualizarData
+        };
+        var json = JsonConvert.SerializeObject(login);
+        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+        var httpResponse = await client.PutAsync(apiName, httpContent);
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            GetUser();
+        }
+        AtualizarId = 0;
+        AtualizarUsuario = "";
+        AtualizarSenha = "";
+        AtualizarData = DateTime.Now;
     }
 
     
