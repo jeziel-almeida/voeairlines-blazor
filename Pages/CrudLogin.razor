@@ -1,171 +1,86 @@
 @page "/crudlogin"
 @inject HttpClient client;
-@using Newtonsoft.Json
-@using System.Text
-@using voeairlines_blazor.Data
 
-<div class="container mb-5" id="cadastrar-form">
+@if (Mostrar == 0) {
+    <div class="container">
 
-    <div class="row">
-        <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
-            <h4>Cadastrar usuário</h4>   
-            <div>
-                <div class="mb-3">
-    
-                    <label for="usuario" class="form-label">Usuário</label>
-                    <input type="text" class="form-control" id="usuario" name="usuario" @bind="InputUsuario">
-    
-                </div>
-                <div class="mb-3">
-                    <label for="senha" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="senha" name="senha" @bind="InputSenha">
-    
-                </div>
-                
-                <button type="button" class="btn btn-primary" @onclick="PostUser">Enviar</button>
-            </div>   
-        </div>
+        <div class="row">
+            <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
+                <h4 class="fw-bold">Cadastrar usuário</h4>   
+                <div>
+                    <div class="mb-3">
+        
+                        <label for="usuario" class="form-label">Usuário</label>
+                        <input type="text" class="form-control" id="usuario" name="usuario" @bind="InputUsuario">
+        
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha" @bind="InputSenha">
+        
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" @onclick="PostUser">Enviar</button>
+                </div>   
+            </div>
 
 
-        <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
-            <h4>Lista de Usuários</h4>
-    
-            <table class="table table-light table-sm table-bordered table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>Usuário</th>
-                        <th>Data Criação</th>
-                        <th>Deletar</th>
-                        <th>Atualizar</th>
-                    </tr>
-                </thead>
-                <tbody id="tabela-corpo">
-                    @if (Usuarios != null) {
-                        @foreach (var usuario in Usuarios) {
-                            <tr class="justify-content-center">
-                                <td>@usuario.Usuario</td>
-                                <td>@usuario.DataCriacao</td>
-                                <td><button type="button" class="btn btn-danger" @onclick="() => DeleteUser(usuario.Id)">Deletar</button></td>
-                                <td><button type="button" class="btn btn-warning" @onclick="() => PreencherAtualizar(usuario.Id, usuario.Usuario, usuario.DataCriacao)">Atualizar</button></td>
-                            </tr>
+            <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
+                <h4 class="fw-bold">Lista de Usuários</h4>
+        
+                <table class="table table-light table-sm table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Data Criação</th>
+                            <th>Deletar</th>
+                            <th>Atualizar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo">
+                        @if (Usuarios != null) {
+                            @foreach (var usuario in Usuarios) {
+                                <tr class="justify-content-center">
+                                    <td>@usuario.Usuario</td>
+                                    <td>@usuario.DataCriacao</td>
+                                    <td><button type="button" class="btn btn-danger" @onclick="() => DeleteUser(usuario.Id)">Deletar</button></td>
+                                    <td><button type="button" class="btn btn-warning" @onclick="() => PreencherAtualizar(usuario.Id, usuario.Usuario, usuario.DataCriacao)">Atualizar</button></td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+@if (Mostrar == 1) {
+    <div class="container">
+        <div class="row">
+            <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
+                <h4 class="fw-bold">Atualizar usuário</h4>   
+                <div>
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label">Usuário</label>
+                        <input type="text" class="form-control" id="atualizar-usuario" name="atualizar-usuario" @bind="AtualizarUsuario">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="atualizar-senha" name="atualizar-senha">
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" @onclick="UpdateUser">Atualizar</button>
+                    <button type="button" class="btn btn-warning" @onclick="CancelarUpdate">Cancelar</button>
+                </div>   
+            </div>
+            <div class="container col">
+
+            </div>
         </div>
     </div>
-
-</div>
-
-<div class="container mt-5">
-    <div class="container bg-dark bg-opacity-75 text-white mx-2 p-4 border col">
-        <h4>Atualizar usuário</h4>   
-        <div>
-            <div class="mb-3">
-                <label for="usuario" class="form-label">Usuário</label>
-                <input type="text" class="form-control" id="atualizar-usuario" name="atualizar-usuario" @bind="AtualizarUsuario">
-
-            </div>
-            <div class="mb-3">
-                <label for="senha" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="atualizar-senha" name="atualizar-senha" @bind="AtualizarSenha">
-            </div>
-            
-            <button type="button" class="btn btn-primary" @onclick="UpdateUser">Atualizar</button>
-        </div>   
-    </div>
-</div>
-
-@code {
-    //* Post User
-    private string? InputUsuario;
-    private string? InputSenha;
-
-    //* Update User
-    private string? AtualizarUsuario;
-    private string? AtualizarSenha;
-    private int? AtualizarId;
-    private DateTime AtualizarData;
-
-
-    List<LoginCrud>? Usuarios;
-    
-    private async void GetUser()
-    {
-        var apiName = "http://jezielalmeida-001-site1.btempurl.com/api/login/";
-        var httpResponse = await client.GetAsync(apiName);
-        if (httpResponse.IsSuccessStatusCode)
-        {
-            Usuarios = new List<LoginCrud>();
-            var apiConteudo = await httpResponse.Content.ReadAsStringAsync();
-            Usuarios = JsonConvert.DeserializeObject<List<LoginCrud>>(apiConteudo);
-            StateHasChanged();
-        }
-    }
-
-    protected override void OnInitialized()
-    {
-        GetUser();
-    }
-
-    private async void PostUser()
-    {
-        var apiName = "http://jezielalmeida-001-site1.btempurl.com/api/login/";
-        var login = new LoginPost
-        {
-            Usuario = InputUsuario,
-            Senha = InputSenha,
-        };
-        var json = JsonConvert.SerializeObject(login);
-        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-        var httpResponse = await client.PostAsync(apiName, httpContent);
-        if (httpResponse.IsSuccessStatusCode)
-        {
-            GetUser();
-        }
-
-        InputUsuario = "";
-        InputSenha = "";
-    }
-
-    private async void DeleteUser(int id)
-    {
-        var apiName = $"http://jezielalmeida-001-site1.btempurl.com/api/login/{id}";
-        var httpResponse = await client.DeleteAsync(apiName);
-        if (httpResponse.IsSuccessStatusCode)
-        {
-            GetUser();
-        }
-    }
-
-    private void PreencherAtualizar(int id, string usuario, DateTime dataCriacao) 
-    {
-        AtualizarId = id;
-        AtualizarUsuario = usuario;
-        AtualizarData = dataCriacao;
-    }
-    private async void UpdateUser()
-    {
-        var apiName = $"http://jezielalmeida-001-site1.btempurl.com/api/login/{AtualizarId}";
-
-        var login = new LoginPut
-        {
-            Usuario = AtualizarUsuario,
-            Senha = AtualizarSenha,
-            DataCriacao = AtualizarData
-        };
-        var json = JsonConvert.SerializeObject(login);
-        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-        var httpResponse = await client.PutAsync(apiName, httpContent);
-        if (httpResponse.IsSuccessStatusCode)
-        {
-            GetUser();
-        }
-        AtualizarId = 0;
-        AtualizarUsuario = "";
-        AtualizarSenha = "";
-        AtualizarData = DateTime.Now;
-    }
-
     
 }
