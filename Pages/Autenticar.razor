@@ -6,7 +6,7 @@
 
 @* https://getbootstrap.com/docs/5.2/content/tables/#overview *@
 
-<div class="container bg-dark p-4">
+<div class="container bg-dark bg-opacity-75 p-4">
 
     <div class="col-3 py-1">
         <p class="text-white fs-5 fw-bold">Usuário:</p>
@@ -23,10 +23,11 @@
 
     @if (acesso)
     {
-        <p style="margin-top:25px;">Seja bem vindo: @InputUser</p>
-        <p>Você tem a funcionalidade habilitada de:
+        <div class="text-white fs-5">
+            <p class="my-3 fw-bold">Seja bem vindo: @InputUser</p>
+            <p class="py-2 fw-bold">Você tem a funcionalidade habilitada de:</p>
             <ListarLogins />
-        </p>
+        </div>
 
     }
 </div>
