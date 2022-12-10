@@ -36,6 +36,10 @@ public partial class CrudLogin
     protected override void OnInitialized()
     {
         GetUser();
+        AtualizarId = 0;
+        AtualizarUsuario = "";
+        AtualizarSenha = "";
+        AtualizarData = DateTime.Now;
     }
 
     private async void PostUser()
@@ -79,7 +83,6 @@ public partial class CrudLogin
     private async void UpdateUser()
     {
         var apiName = $"http://jezielalmeida-001-site1.btempurl.com/api/login/{AtualizarId}";
-
         var login = new LoginPut
         {
             Usuario = AtualizarUsuario,
